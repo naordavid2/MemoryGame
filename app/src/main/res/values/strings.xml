@@ -6,4 +6,10 @@
     <string name="act_main_button_start">START!</string>
     <string name="err_empty_user_name">Please enter your name</string>
     <string name="err_empty_user_age">Please enter your age</string>
+    <string name="act_game_select_user_name">Hello %s!!!</string>
+    <string name="act_game_select_user_age">Being %d years old doesn\'t mean you can\'t play!</string>
+    <string name="act_game_select_hard_level">HARD - %dx%d</string>
+    <string name="act_game_select_mid_level">MID - %d x %d</string>
+    <string name="act_game_select_easy_level">EASY - %d x %d</string>
+    <string name="act_game_select_select_level">Please select level:</string>
 </resources>

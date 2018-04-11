@@ -7,7 +7,7 @@
     tools:context=".GameSelectActivity">
 
     <TextView
-        android:id="@+id/act_game_select_name"
+        android:id="@+id/act_game_select_text_view_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -18,14 +18,59 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/act_game_select_age"
+        android:id="@+id/act_game_select_text_view_age"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/act_game_select_text_view_name" />
+
+    <TextView
+        android:id="@+id/act_game_select_text_view_select_level"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
-        android:text="jjjjjjj"
+        android:text="@string/act_game_select_select_level"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/act_game_select_name" />
+        app:layout_constraintTop_toBottomOf="@+id/act_game_select_text_view_age" />
+
+    <Button
+        android:id="@+id/act_game_select_button_easy_level"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/act_game_select_text_view_select_level" />
+
+    <Button
+        android:id="@+id/act_game_select_button_mid_level"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/act_game_select_button_easy_level" />
+
+    <Button
+        android:id="@+id/act_game_select_button_hard_level"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/act_game_select_button_mid_level" />
+
 </android.support.constraint.ConstraintLayout>

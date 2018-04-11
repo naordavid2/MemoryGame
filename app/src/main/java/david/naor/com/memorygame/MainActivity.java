@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
         }
         if (editText_user_age.getText().length() == 0) {
             editText_user_age.setError(getString(R.string.err_empty_user_age));
-
             valid = false;
         }
         return valid;
@@ -54,8 +53,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void goToGameSelectActivity(){
         Intent intent = new Intent(this, GameSelectActivity.class);
-        intent.putExtra("user_name", editText_user_name.getText().toString());
-        intent.putExtra("user_age", editText_user_age.getText().toString());
+        intent.putExtra(GameSelectActivity.USER_NAME, editText_user_name.getText().toString());
+        int age = Integer.parseInt(editText_user_age.getText().toString());
+        intent.putExtra(GameSelectActivity.USER_AGE, age);
         startActivity(intent);
     }
 }
