@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">MemoryGame</string>
+    <string name="act_main_welcome">Welcome to the MEMORY GAME!</string>
+    <string name="act_main_user_name">Name</string>
+    <string name="act_main_user_age">Age</string>
+    <string name="act_main_button_start">START!</string>
+    <string name="err_empty_user_name">Please enter your name</string>
+    <string name="err_empty_user_age">Please enter your age</string>
+</resources>
