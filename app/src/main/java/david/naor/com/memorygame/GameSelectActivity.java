@@ -69,8 +69,8 @@ public class GameSelectActivity extends AppCompatActivity {
 
     private void initMembersFromIntent(){
         Bundle intentData = getIntent().getExtras();
-        name = intentData.getString("user_name");
-        age = intentData.getInt("user_age");
+        name = intentData.getString(USER_NAME);
+        age = intentData.getInt(USER_AGE);
     }
 
     private void goToGameByLevel(int level){
