@@ -1,15 +1,16 @@
 package david.naor.com.memorygame;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,23 +24,27 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private Card            second;
     private List<Bitmap>    images;
     TextView                result;
+    private int             matches;
+    private int             pairs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        initMembersFromIntent();
+        initMembers();
 
         initComponents();
     }
 
-    private void initMembersFromIntent(){
+    private void initMembers(){
         Bundle intentData = getIntent().getExtras();
         level = intentData.getInt(GAME_LEVEL);
+        pairs = level*level/2;
         first = null;
         second= null;
-        cardIds = new int[level*level/2];
+        matches = 0;
+        cardIds = new int[pairs];
         for(int j = 0; j < cardIds.length; j++)
             cardIds[j] = 0;
     }
@@ -47,7 +52,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private void initComponents(){
         initImages();
         result = (TextView) findViewById(R.id.result);
-        result.setText("result");
+        result.setText("Matches: " + matches);
         TableLayout table = (TableLayout) findViewById(R.id.ect_game_activity_cards_table);
         int n = 100;
         int inactiveCard = findInactiveCard() - 1;
@@ -70,6 +75,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+
     @Override
     public void onClick(View v) {
         Card c = (Card) findViewById(v.getId());
@@ -86,16 +92,15 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         second = c;
         second.flip();
-        if (first.isMatch(second))
-            result.setText("Match");
-        else {
-            result.setText("MisMatch");
-            first.flip();
-            second.flip();
+        if (first.isMatch(second)) {
+            matches ++;
+            resetCards();
         }
-
-        first = null;
-        second = null;
+        else {
+            flipCards();
+        }
+        result.setText("Matches: " + matches);
+        checkGame();
     }
 
 
@@ -132,10 +137,36 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         return chosen;
     }
 
+
     private int findInactiveCard(){
         if (level%2 == 0)
             return -1;
         else
             return (level / 2) + 1;
+    }
+
+    private void flipCards(){
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                first.flip();
+                second.flip();
+                resetCards();
+            }
+        }, 1000);
+    }
+
+    private void resetCards(){
+        first = null;
+        second = null;
+    }
+
+    private void checkGame(){
+        if (matches != pairs)
+            return;
+
+        result.setText("WELL DONE!!!");
+        Toast.makeText(this, "WELL DONE!!!", Toast.LENGTH_LONG).show();
+        finish();
     }
 }
