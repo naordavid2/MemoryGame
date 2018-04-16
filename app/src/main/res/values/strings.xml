@@ -12,4 +12,6 @@
     <string name="act_game_select_mid_level">MID - %d x %d</string>
     <string name="act_game_select_easy_level">EASY - %d x %d</string>
     <string name="act_game_select_select_level">Please select level:</string>
+    <string name="act_game_activity_matches">Matches:</string>
+    <string name="act_game_activity_well_done">WELL DONE!!!</string>
 </resources>

@@ -1,6 +1,6 @@
 package david.naor.com.memorygame;
 
-import android.content.Intent;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
@@ -26,6 +26,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     TextView                result;
     private int             matches;
     private int             pairs;
+    boolean                 active;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         first = null;
         second= null;
         matches = 0;
+        active = true;
         cardIds = new int[pairs];
         for(int j = 0; j < cardIds.length; j++)
             cardIds[j] = 0;
@@ -52,7 +54,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private void initComponents(){
         initImages();
         result = (TextView) findViewById(R.id.result);
-        result.setText("Matches: " + matches);
+        result.setText(getString(R.string.act_game_activity_matches) + matches);
         TableLayout table = (TableLayout) findViewById(R.id.ect_game_activity_cards_table);
         int n = 100;
         int inactiveCard = findInactiveCard() - 1;
@@ -78,6 +80,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+        if (!active)
+            return;
+
         Card c = (Card) findViewById(v.getId());
         if (c == null)
             return;
@@ -97,9 +102,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             resetCards();
         }
         else {
+            active = false;
             flipCards();
         }
-        result.setText("Matches: " + matches);
+        result.setText(getString(R.string.act_game_activity_matches) + matches);
         checkGame();
     }
 
@@ -127,7 +133,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         while (chosen < 0){
             int n = r.nextInt(cardIds.length);
-            System.out.println("rand = " + n);
             if (n < cardIds.length && cardIds[n] < 2)
             {
                 cardIds[n]++;
@@ -152,6 +157,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 first.flip();
                 second.flip();
                 resetCards();
+                active = true;
             }
         }, 1000);
     }
@@ -165,8 +171,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         if (matches != pairs)
             return;
 
-        result.setText("WELL DONE!!!");
-        Toast.makeText(this, "WELL DONE!!!", Toast.LENGTH_LONG).show();
+        result.setText(R.string.act_game_activity_well_done);
+        Toast.makeText(this, R.string.act_game_activity_well_done, Toast.LENGTH_LONG).show();
         finish();
     }
 }
