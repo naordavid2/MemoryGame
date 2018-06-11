@@ -1,4 +1,5 @@
 <resources>
+    <string name="log_tag">MEMORY_GAME</string>
     <string name="app_name">MemoryGame</string>
     <string name="act_main_welcome">Welcome to the MEMORY GAME!</string>
     <string name="act_main_user_name">Name</string>
@@ -14,4 +15,8 @@
     <string name="act_game_select_select_level">Please select level:</string>
     <string name="act_game_activity_matches">Matches:</string>
     <string name="act_game_activity_well_done">WELL DONE!!!</string>
+    <string name="act_game_select_scores">Top 10 Scores:</string>
+    <string name="act_game_select_scores_mode_table">Table</string>
+    <string name="act_game_select_scores_mode_map">Map</string>
+    <string name="google_maps_api_key">AIzaSyCDRxumJo-eNToT7zrrkbtD6i0cItCpfJc</string>
 </resources>

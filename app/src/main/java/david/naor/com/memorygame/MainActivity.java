@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
-    //checing the new branch
+
     private int         user_age;
     private String      user_name;
     private EditText    editText_user_name;
