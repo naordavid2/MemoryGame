@@ -45,7 +45,7 @@ public class ScoresAdapter extends RecyclerView.Adapter<ScoresAdapter.ScoresView
         Score score = data.get(position);
         holder.textViewName.setText(score.getName());
         holder.textViewScore.setText(String.valueOf(score.getScore()));
-        holder.textViewPosition.setText(String.valueOf(position));
+        holder.textViewPosition.setText(String.valueOf(position + 1));
     }
 
     @Override

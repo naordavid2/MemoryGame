@@ -67,4 +67,9 @@ public class ScoresMapFragment extends Fragment implements OnMapReadyCallback{
             mMap.moveCamera(CameraUpdateFactory.newLatLng(marker));
         }
     }
+
+    public void notifyOnDataChange(){
+        data = myActivity.getScores();
+        mapView.getMapAsync(this);
+    }
 }

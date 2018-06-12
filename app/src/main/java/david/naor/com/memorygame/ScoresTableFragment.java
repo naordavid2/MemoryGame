@@ -42,4 +42,9 @@ public class ScoresTableFragment extends Fragment {
 
         return view;
     }
+
+    public void notifyOnDataChange(){
+        data = myActivity.getScores();
+        scoresAdapter.notifyDataSetChanged();
+    }
 }

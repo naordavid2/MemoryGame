@@ -1,6 +1,7 @@
 package david.naor.com.memorygame;
 
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
@@ -18,6 +19,8 @@ import java.util.Random;
 
 public class GameActivity extends AppCompatActivity implements View.OnClickListener{
     public static final String GAME_LEVEL = "GAME_LEVEL";
+    public static final int GAME_ACTIVITY_RESULT = 1;
+
     private int             level;
     private int[]           cardIds;
     private Card            first;
@@ -173,6 +176,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         result.setText(R.string.act_game_activity_well_done);
         Toast.makeText(this, R.string.act_game_activity_well_done, Toast.LENGTH_LONG).show();
+        Intent intent = new Intent();
+        intent.putExtra("score", level);
+        setResult(RESULT_OK, intent);
         finish();
     }
 }

@@ -4,6 +4,8 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -22,8 +24,18 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
 
 import david.naor.com.memorygame.Data.Score;
 
@@ -42,6 +54,7 @@ public class GameSelectActivity extends FragmentActivity {
 
     private String name;
     private int age;
+    private int gameScore;
 
     private FusedLocationProviderClient mFusedLocationClient;
     private LocationCallback mLocationCallback;
@@ -57,18 +70,20 @@ public class GameSelectActivity extends FragmentActivity {
     private ScoresTableFragment scoresTableFragment;
     private ScoresMapFragment scoresMapFragment;
 
-    private ArrayList<Score> scores;
+    protected ArrayList<Score> scores;
+    private DatabaseReference firebaseDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_select_with_scores);
-
+        scores = new ArrayList<>();
         initMembersFromIntent();
         initLocation();
-        initScoreList();
+        //initScoreList();
         initComponents();
-
+        initDb();
+        getScoreListFromDb();
     }
 
     private void initComponents() {
@@ -134,7 +149,22 @@ public class GameSelectActivity extends FragmentActivity {
 
         intent.putExtra(GameActivity.GAME_LEVEL, level);
 
-        startActivity(intent);
+        //startActivity(intent);
+        startActivityForResult(intent, GameActivity.GAME_ACTIVITY_RESULT);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.e(getString(R.string.log_tag), "onActivityResult");
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == GameActivity.GAME_ACTIVITY_RESULT){
+            if (resultCode == RESULT_OK) {
+                Log.e(getString(R.string.log_tag), "onActivityResult: game finished");
+                gameScore = data.getExtras().getInt("score");
+                gameScore *= age;
+                saveScore();
+            }
+        }
     }
 
     private void switchScoresFragment() {
@@ -177,9 +207,32 @@ public class GameSelectActivity extends FragmentActivity {
     }
 
     private void initScoreList() {
-        scores = new ArrayList<>();
+
         for (int i = 0; i < MAX_SCORES_TO_DISPLAY; i++)
             scores.add(new Score("Name" + i, 50 + i, -2 + i, 10 + i));
+    }
+
+    void getScoreListFromDb(){
+        Log.e(getString(R.string.log_tag), "getScoreListFromDb: start");
+        Query q = firebaseDatabase.orderByChild("score").limitToLast(10);
+        q.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Log.e(getString(R.string.log_tag), "getScoreListFromDb: onDataChange");
+                scores.clear();
+                for (DataSnapshot child : dataSnapshot.getChildren()){
+                    Score score = child.getValue(Score.class);
+                    scores.add(score);
+                }
+                Collections.reverse(scores);
+                notifyDataChange();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void initLocation() {
@@ -238,5 +291,49 @@ public class GameSelectActivity extends FragmentActivity {
         return scores;
     }
 
+    private void initDb(){
+        FirebaseApp.initializeApp(this);
+        firebaseDatabase = FirebaseDatabase.getInstance().getReference("testScores");
+        firebaseDatabase.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String prevKey) {
+                String newKey = dataSnapshot.getKey();
+                Log.e(getString(R.string.log_tag), "onChildAdded: key = " + newKey);
+                getScoreListFromDb();
+            }
 
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void saveScore(){
+        double x = currLocation != null ? currLocation.getLatitude() : 0;
+        double y = currLocation != null ? currLocation.getLatitude() : 0;
+        Score score = new Score(name, x, y, gameScore);
+        firebaseDatabase.push().setValue(score);
+
+    }
+
+    private void notifyDataChange(){
+        if (scoresTableFragment != null)
+            scoresTableFragment.notifyOnDataChange();
+    }
 }
