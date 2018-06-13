@@ -5,13 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".GameActivity">
-<TableLayout
-    android:id="@+id/ect_game_activity_cards_table"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+
+    <TableLayout
+        android:id="@+id/ect_game_activity_cards_table"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="64dp"
+        app:layout_constraintBottom_toBottomOf="parent">
 
 
-</TableLayout>
+    </TableLayout>
 
     <TextView
         android:id="@+id/result"

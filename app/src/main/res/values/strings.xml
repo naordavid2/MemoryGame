@@ -15,6 +15,7 @@
     <string name="act_game_select_select_level">Please select level:</string>
     <string name="act_game_activity_matches">Matches:</string>
     <string name="act_game_activity_well_done">WELL DONE!!!</string>
+    <string name="act_game_activity_game_over">GAME OVER!!!</string>
     <string name="act_game_select_scores">Top 10 Scores:</string>
     <string name="act_game_select_scores_mode_table">Table</string>
     <string name="act_game_select_scores_mode_map">Map</string>

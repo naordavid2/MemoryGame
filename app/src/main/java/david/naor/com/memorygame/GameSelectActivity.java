@@ -206,12 +206,6 @@ public class GameSelectActivity extends FragmentActivity {
         scoreViewMode %= 2;
     }
 
-    private void initScoreList() {
-
-        for (int i = 0; i < MAX_SCORES_TO_DISPLAY; i++)
-            scores.add(new Score("Name" + i, 50 + i, -2 + i, 10 + i));
-    }
-
     void getScoreListFromDb(){
         Log.e(getString(R.string.log_tag), "getScoreListFromDb: start");
         Query q = firebaseDatabase.orderByChild("score").limitToLast(10);
@@ -326,7 +320,7 @@ public class GameSelectActivity extends FragmentActivity {
 
     private void saveScore(){
         double x = currLocation != null ? currLocation.getLatitude() : 0;
-        double y = currLocation != null ? currLocation.getLatitude() : 0;
+        double y = currLocation != null ? currLocation.getAltitude() : 0;
         Score score = new Score(name, x, y, gameScore);
         firebaseDatabase.push().setValue(score);
 
@@ -335,5 +329,7 @@ public class GameSelectActivity extends FragmentActivity {
     private void notifyDataChange(){
         if (scoresTableFragment != null)
             scoresTableFragment.notifyOnDataChange();
+        if (scoresMapFragment != null)
+            scoresMapFragment.notifyOnDataChange();
     }
 }

@@ -30,6 +30,7 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:26.1.0'
     implementation 'com.google.android.gms:play-services-maps:15.0.1'
     implementation 'com.google.android.gms:play-services-location:15.0.1'
+    implementation 'tyrantgit:explosionfield:1.0.1'
 }
 
 apply plugin: 'com.google.gms.google-services'
